@@ -1,0 +1,5 @@
+name: HySync
+version: 1.0.0-DEV
+main: org.hysync.plugin.Core
+authors: [Chazmondo,Aerh]
+description: "Hypixel Synchronization for Spigot Servers!"
