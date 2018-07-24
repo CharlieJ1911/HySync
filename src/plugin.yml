@@ -1,5 +1,5 @@
 name: HySync
-version: 1.0.0-DEV
-main: org.hysync.plugin.Core
+version: 1.0
+main: org.hysync.plugin.HySync
 authors: [Chazmondo,Aerh]
-description: "Hypixel Synchronization for Spigot Servers!"
+description: Hypixel Data Sync for Minecraft Servers!
