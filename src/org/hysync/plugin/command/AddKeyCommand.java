@@ -5,7 +5,9 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.entity.Player;
 import org.hysync.plugin.HySync;
+import org.hysync.plugin.message.Lang;
 import org.hysync.plugin.storage.Key;
+import org.hysync.plugin.storage.KeyManager;
 import org.hysync.plugin.util.StringUtil;
 
 import java.util.UUID;
@@ -19,12 +21,17 @@ public class AddKeyCommand extends BaseCommand {
     }
 
     @Subcommand("add")
-    public void onKeyAdd(Player sender, String key){
-        if(sender.hasPermission("hysync.key.add")){
-            hySync.getKeyManager().getKeys().add(new Key(UUID.fromString(key), sender.getUniqueId()));
-            sender.sendMessage(StringUtil.translate("&eSuccessfully added &6"+key));
-        } else {
-            // TODO: Add Permission Message
+    public void onKeyAdd(Player player, String key){
+        if(StringUtil.hasPerm(player, "hysync.key.add")){
+            return;
         }
+
+        if(!KeyManager.isValidKey(key)){
+            Lang.ADD_INVALID_KEY.send(player);
+            return;
+        }
+
+        Lang.ADD_VALID_KEY.send(player, key);
+        KeyManager.getKeys().add(new Key(UUID.fromString(key), player.getUniqueId()));
     }
 }

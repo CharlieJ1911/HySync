@@ -8,17 +8,21 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class KeyManager {
     private HySync hysync;
-    private Set<Key> keyStorage;
+    private static Set<Key> keyStorage;
 
     public KeyManager(HySync hysync){
         this.hysync = hysync;
-        this.keyStorage = new HashSet<>();
+        keyStorage = new HashSet<>();
     }
 
-    public Set<Key> getKeys(){
+    public static Set<Key> getKeys(){
         return keyStorage;
     }
-    public <key> key getRandomKey(Set<key> set) {
+    public static <key> key getRandomKey(Set<key> set) {
         return set.stream().skip(ThreadLocalRandom.current().nextInt(set.size())).findFirst().orElse(null);
+    }
+
+    public static boolean isValidKey(String key){
+        return key.matches("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
     }
 }
