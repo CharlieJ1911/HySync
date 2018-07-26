@@ -39,6 +39,14 @@
                 <version>3.1.1</version>
                 <configuration>
                     <minimizeJar>true</minimizeJar>
+                    <filters>
+                        <filter>
+                            <artifact>commons-logging:commons-logging</artifact>
+                            <includes>
+                                <include>org/apache/commons/logging/**</include>
+                            </includes>
+                        </filter>
+                    </filters>
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <relocations>
                         <relocation>
@@ -57,6 +65,8 @@
                             <artifactSet>
                                 <excludes>
                                     <exclude>org.jetbrains:annotations</exclude>
+                                    <exclude>com.github.HypixelDev:PublicAPI:jar:24b1f8545c</exclude>
+                                    <exclude>com.github.HypixelDev.PublicAPI:Example:jar:24b1f8545c</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>
@@ -67,6 +77,36 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.HypixelDev</groupId>
+            <artifactId>PublicAPI</artifactId>
+            <version>24b1f8545c</version>
+        </dependency>
+
+        <!-- HypixelAPI Dependencies -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <!-- /HypixelAPI Dependencies -->
+
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
@@ -81,6 +121,10 @@
     </dependencies>
 
     <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>

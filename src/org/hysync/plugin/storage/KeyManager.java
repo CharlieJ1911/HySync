@@ -18,8 +18,8 @@ public class KeyManager {
     public static Set<Key> getKeys(){
         return keyStorage;
     }
-    public static <key> key getRandomKey(Set<key> set) {
-        return set.stream().skip(ThreadLocalRandom.current().nextInt(set.size())).findFirst().orElse(null);
+    public static Key getRandomKey() {
+        return keyStorage.stream().skip(ThreadLocalRandom.current().nextInt(keyStorage.size())).findFirst().orElse(null);
     }
 
     public static boolean isValidKey(String key){

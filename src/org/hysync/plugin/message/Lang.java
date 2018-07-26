@@ -23,6 +23,9 @@ public enum Lang {
     EXIT_CODE("cancel"),
     KEY_ID("&a{0}"),
     KEY_ID_HOVER("&eCreated by &6{0}"),
+    RANK_SET_TO("&eYour rank has been set to &6{0}&e."),
+    RANK_CHECK_SELF("&eYour rank is &6{0}&e."),
+    RANK_CHECK_OTHER("&e{0}'s rank is &6{1}&e.")
 
     ;
 

@@ -5,11 +5,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.hysync.plugin.command.AddKeyCommand;
 import org.hysync.plugin.command.ListKeyCommand;
+import org.hysync.plugin.command.RankCheckCommand;
 import org.hysync.plugin.event.KeyWelcomeEvent;
+import org.hysync.plugin.event.ProfileSetEvent;
 import org.hysync.plugin.message.ConfigWrapper;
 import org.hysync.plugin.message.Lang;
 import org.hysync.plugin.storage.Key;
 import org.hysync.plugin.storage.KeyManager;
+import org.hysync.plugin.util.HypixelUtil;
 
 import java.util.UUID;
 
@@ -33,6 +36,11 @@ public class HySync extends JavaPlugin {
     // Setup
     public UUID activeSetupUser;
 
+    private HypixelUtil hypixelUtil;
+    public HypixelUtil getHypixelUtil() {
+        return hypixelUtil;
+    }
+
     @Override
     public void onEnable(){
         activeSetupUser = null;
@@ -47,11 +55,15 @@ public class HySync extends JavaPlugin {
 
         // Events
         new KeyWelcomeEvent(this);
+        new ProfileSetEvent(this);
 
         // Commands
         commandManager = new BukkitCommandManager(this);
         new AddKeyCommand(this);
         new ListKeyCommand(this);
+        new RankCheckCommand(this);
+
+        hypixelUtil = new HypixelUtil(this);
     }
 
     private void loadKeys(){

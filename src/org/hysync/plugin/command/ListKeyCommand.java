@@ -16,8 +16,8 @@ import org.hysync.plugin.util.StringUtil;
 
 @CommandAlias("hysync")
 public class ListKeyCommand extends BaseCommand {
-    public ListKeyCommand(HySync hysync){
-        hysync.getCommandManager().registerCommand(this, true);
+    public ListKeyCommand(HySync hySync){
+        hySync.getCommandManager().registerCommand(this, true);
     }
 
     @Subcommand("list")

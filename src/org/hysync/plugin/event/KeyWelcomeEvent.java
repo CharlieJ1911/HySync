@@ -1,5 +1,6 @@
 package org.hysync.plugin.event;
 
+import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,9 +31,13 @@ public class KeyWelcomeEvent implements Listener {
     @EventHandler
     public void onOperatorJoin(PlayerJoinEvent e){
         Player player = e.getPlayer();
+        player.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&6[APPLE] " + player.getName()));
+        player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&6[APPLE] " + player.getName()));
 
         if(KeyManager.getKeys().size() > 0) return;
         if(!player.isOp()) return;
+
+
         if(currentlyRegistering != null) return;
 
             new BukkitRunnable(){
