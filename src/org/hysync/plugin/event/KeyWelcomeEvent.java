@@ -1,6 +1,5 @@
 package org.hysync.plugin.event;
 
-import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,7 +34,6 @@ public class KeyWelcomeEvent implements Listener {
 
         if(KeyManager.getKeys().size() > 0) return;
         if(!player.isOp()) return;
-
 
         if(currentlyRegistering != null) return;
 

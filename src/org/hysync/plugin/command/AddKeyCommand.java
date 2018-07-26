@@ -30,6 +30,11 @@ public class AddKeyCommand extends BaseCommand {
             return;
         }
 
+        if(KeyManager.isAlreadyAdded(UUID.fromString(key))){
+            Lang.KEY_ALREADY_ADDED.send(player);
+            return;
+        }
+
         Lang.ADD_VALID_KEY.send(player, key);
         KeyManager.getKeys().add(new Key(UUID.fromString(key), player.getUniqueId()));
     }

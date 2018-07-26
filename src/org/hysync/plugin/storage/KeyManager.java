@@ -1,7 +1,6 @@
 package org.hysync.plugin.storage;
 
 import org.hysync.plugin.HySync;
-import org.hysync.plugin.message.Lang;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +24,7 @@ public class KeyManager {
     }
 
     public static boolean isAlreadyAdded(UUID key) {
-        return keyStorage.contains(key);
+        return keyStorage.stream().filter(apiKey -> apiKey.getKeyUuid().equals(key)).count() > 0;
     }
 
     public static boolean isValidKey(String key){
