@@ -31,6 +31,8 @@ public class KeyWelcomeEvent implements Listener {
     @EventHandler
     public void onOperatorJoin(PlayerJoinEvent e){
         Player player = e.getPlayer();
+
+        // TODO: Change this to reflect the actual rank prefix (testing currently)
         player.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&6[APPLE] " + player.getName()));
         player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&6[APPLE] " + player.getName()));
 

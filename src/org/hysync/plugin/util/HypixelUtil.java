@@ -47,20 +47,29 @@ public class HypixelUtil {
 
             JsonObject player = result.getPlayer();
             String rank;
+
             if(player.get("rank") != null && !player.get("rank").getAsString().equalsIgnoreCase("normal")){
                 // Staff
                 rank = player.get("rank").getAsString();
-            } else if(player.get("newPackageRank") != null) {
-                // Donator
+
+            } else if(player.get("monthlyPackageRank") != null){
+                // Monthly Paid Ranks
+                rank = player.get("monthlyPackageRank").getAsString();
+                if(rank.equalsIgnoreCase("SUPERSTAR")){
+                    // MVP++
+                    rank = "MVP_PLUS_PLUS";
+                }
+
+            } else if(player.get("newPackageRank") != null){
+                // Donator (Below MVP++)
                 rank = player.get("newPackageRank").getAsString();
-            } else if(player.get("monthlyPackageRank") != null) {
-                // MONTHLY DONATOR
-                rank = "MVP_PLUS_PLUS";
+
             } else if(player.get("packageRank") != null){
-                // Donator
+                // Unsure
                 rank = player.get("packageRank").getAsString();
+
             } else {
-                // No Rank
+                // Normal Player
                 rank = "NONE";
             }
 
