@@ -3,3 +3,4 @@ version: ${project.version}
 main: ${project.groupId}.${project.artifactId}.HySync
 authors: [Chazmondo,Aerh]
 description: Hypixel Data Sync for Minecraft Servers!
+website: "https://hysync.org/"
