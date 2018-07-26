@@ -37,12 +37,13 @@ public class HySync extends JavaPlugin {
     public UUID activeSetupUser;
 
     private HypixelUtil hypixelUtil;
+
     public HypixelUtil getHypixelUtil() {
         return hypixelUtil;
     }
 
     @Override
-    public void onEnable(){
+    public void onEnable() {
         activeSetupUser = null;
 
         // Config Handling
@@ -66,32 +67,32 @@ public class HySync extends JavaPlugin {
         hypixelUtil = new HypixelUtil(this);
     }
 
-    private void loadKeys(){
+    private void loadKeys() {
         FileConfiguration keyConfigFile = keyConfig.getConfig();
-        if(keyConfigFile.getConfigurationSection("storage") == null){
+        if (keyConfigFile.getConfigurationSection("storage") == null) {
             getLogger().warning("No API Keys have been configured.");
             return;
         }
-        for(String keyId : keyConfigFile.getConfigurationSection("storage").getKeys(false)){
+        for (String keyId : keyConfigFile.getConfigurationSection("storage").getKeys(false)) {
             KeyManager.getKeys().add(new Key(UUID.fromString(keyId),
-                    UUID.fromString(keyConfigFile.getString("storage."+keyId+".added-by"))));
+                    UUID.fromString(keyConfigFile.getString("storage." + keyId + ".added-by"))));
             getLogger().info("Loading '" + keyId + "'");
         }
         int keys = KeyManager.getKeys().size();
-        getLogger().info("Registered " + keys + " API " + (keys > 1 ? "Keys" : "Key") + ".");
+        getLogger().info("Registered " + keys + " API " + (keys > 1 ? "keys" : "key"));
     }
 
-    private void unloadKeys(){
+    private void unloadKeys() {
         FileConfiguration keyConfigFile = keyConfig.getConfig();
         KeyManager.getKeys().forEach(key -> {
-            keyConfigFile.set("storage."+key.getKeyUuid()+".added-by", key.getPlayerUuid().toString());
-            getLogger().info("Unloading '" + key.getKeyUuid() + "'");
+            keyConfigFile.set("storage." + key.getKeyUuid() + ".added-by", key.getPlayerUuid().toString());
+            getLogger().info("Unloading key: '" + key.getKeyUuid() + "'");
         });
         keyConfig.saveConfig();
     }
 
     @Override
-    public void onDisable(){
+    public void onDisable() {
         unloadKeys();
     }
 }

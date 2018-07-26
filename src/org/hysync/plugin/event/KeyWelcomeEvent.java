@@ -19,39 +19,39 @@ public class KeyWelcomeEvent implements Listener {
     private ConversationFactory factory;
     private UUID currentlyRegistering;
 
-    public KeyWelcomeEvent(HySync hySync){
+    public KeyWelcomeEvent(HySync hySync) {
         this.hySync = hySync;
         hySync.getServer().getPluginManager().registerEvents(this, hySync);
         factory = new ConversationFactory(hySync).withFirstPrompt(new APIKeyPrompt())
                 .withEscapeSequence(Lang.EXIT_CODE.asString()).withLocalEcho(false)
-        .addConversationAbandonedListener(new ConvAbandonedListener(hySync));
+                .addConversationAbandonedListener(new ConvAbandonedListener(hySync));
         hySync.activeSetupUser = null;
     }
 
     @EventHandler
-    public void onOperatorJoin(PlayerJoinEvent e){
+    public void onOperatorJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
-        if(KeyManager.getKeys().size() > 0) return;
-        if(!player.isOp()) return;
+        if (KeyManager.getKeys().size() > 0) return;
+        if (!player.isOp()) return;
 
-        if(currentlyRegistering != null) return;
+        if (currentlyRegistering != null) return;
 
-            new BukkitRunnable(){
-                @Override
-                public void run() {
-                    hySync.activeSetupUser = player.getUniqueId();
-                    factory.buildConversation(player).begin();
-                }
-            }.runTaskLaterAsynchronously(hySync, 10);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                hySync.activeSetupUser = player.getUniqueId();
+                factory.buildConversation(player).begin();
+            }
+        }.runTaskLaterAsynchronously(hySync, 10);
     }
 
     @EventHandler
-    public void onOperatorLeave(PlayerQuitEvent e){
+    public void onOperatorLeave(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        if(KeyManager.getKeys().size() > 0) return;
+        if (KeyManager.getKeys().size() > 0) return;
 
-        if(hySync.activeSetupUser == player.getUniqueId()){
+        if (hySync.activeSetupUser == player.getUniqueId()) {
             hySync.getLogger().info(player.getName() + " left during setup.");
         }
     }
