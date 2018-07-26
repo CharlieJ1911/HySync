@@ -9,13 +9,14 @@ import org.hysync.plugin.message.Lang;
 import org.hysync.plugin.storage.Key;
 import org.hysync.plugin.storage.KeyManager;
 import org.hysync.plugin.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 @CommandAlias("hysync")
 public class AddKeyCommand extends BaseCommand {
     private HySync hySync;
-    public AddKeyCommand(HySync hysync){
+    public AddKeyCommand(@NotNull HySync hysync){
         this.hySync = hysync;
         hysync.getCommandManager().registerCommand(this, true);
     }

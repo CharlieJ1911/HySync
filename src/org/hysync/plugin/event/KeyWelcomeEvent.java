@@ -19,6 +19,7 @@ public class KeyWelcomeEvent implements Listener {
     private HySync hySync;
     private ConversationFactory factory;
     private UUID currentlyRegistering;
+
     public KeyWelcomeEvent(HySync hySync){
         this.hySync = hySync;
         hySync.getServer().getPluginManager().registerEvents(this, hySync);
@@ -31,10 +32,6 @@ public class KeyWelcomeEvent implements Listener {
     @EventHandler
     public void onOperatorJoin(PlayerJoinEvent e){
         Player player = e.getPlayer();
-
-        // TODO: Change this to reflect the actual rank prefix (testing currently)
-        player.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&6[APPLE] " + player.getName()));
-        player.setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&6[APPLE] " + player.getName()));
 
         if(KeyManager.getKeys().size() > 0) return;
         if(!player.isOp()) return;

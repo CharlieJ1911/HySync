@@ -1,5 +1,6 @@
 package org.hysync.plugin.event;
 
+import org.bukkit.Bukkit;
 import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.conversations.ConversationAbandonedListener;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ public class ConvAbandonedListener implements ConversationAbandonedListener {
         if(conversation.getContext().getSessionData("APIKey") == null){
             Lang.WELCOME_EXIT.send(player);
             hySync.activeSetupUser = null;
+            Bukkit.getPluginManager().disablePlugin(hySync);
         }
     }
 }

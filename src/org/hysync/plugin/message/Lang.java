@@ -16,6 +16,7 @@ public enum Lang {
     WELCOME_EXIT("&cSetup cancelled, note the plugin will not work until you do so."),
     ADD_VALID_KEY("&7", "&eKey set to &a{0}", "&7"),
     ADD_INVALID_KEY("&7", "&cYou've specified an invalid key. If you cannot remember, use &f/api new &con Hypixel to obtain a new one.", "&7"),
+    KEY_ALREADY_ADDED("&cThis key is already being used! Please enter a different key."),
     NO_PERMISSION("&cYou do not have {0} to use this command!"),
     LISTING_KEYS("&6Listing API Keys"),
     HEADER("&9&m----------------------------------------------------"),

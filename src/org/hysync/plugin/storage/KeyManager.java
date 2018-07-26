@@ -1,9 +1,11 @@
 package org.hysync.plugin.storage;
 
 import org.hysync.plugin.HySync;
+import org.hysync.plugin.message.Lang;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class KeyManager {
@@ -20,6 +22,10 @@ public class KeyManager {
     }
     public static Key getRandomKey() {
         return keyStorage.stream().skip(ThreadLocalRandom.current().nextInt(keyStorage.size())).findFirst().orElse(null);
+    }
+
+    public static boolean isAlreadyAdded(UUID key) {
+        return keyStorage.contains(key);
     }
 
     public static boolean isValidKey(String key){
