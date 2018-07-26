@@ -43,7 +43,7 @@ public class HySync extends JavaPlugin {
 
         // Key Manager
         keyManager = new KeyManager(this);
-        setupKeys();
+        loadKeys();
 
         // Events
         new KeyWelcomeEvent(this);
@@ -54,22 +54,32 @@ public class HySync extends JavaPlugin {
         new ListKeyCommand(this);
     }
 
-    private void setupKeys(){
+    private void loadKeys(){
         FileConfiguration keyConfigFile = keyConfig.getConfig();
         if(keyConfigFile.getConfigurationSection("storage") == null){
             getLogger().warning("No API Keys have been configured.");
             return;
         }
         for(String keyId : keyConfigFile.getConfigurationSection("storage").getKeys(false)){
-            KeyManager.getKeys().add(new Key(UUID.fromString(keyConfigFile.getString("storage."+keyId)),
+            KeyManager.getKeys().add(new Key(UUID.fromString(keyId),
                     UUID.fromString(keyConfigFile.getString("storage."+keyId+".added-by"))));
+            getLogger().info("Loading '" + keyId + "'");
         }
         int keys = KeyManager.getKeys().size();
         getLogger().info("Registered " + keys + " API " + (keys > 1 ? "Keys" : "Key") + ".");
     }
 
+    private void unloadKeys(){
+        FileConfiguration keyConfigFile = keyConfig.getConfig();
+        KeyManager.getKeys().forEach(key -> {
+            keyConfigFile.set("storage."+key.getKeyUuid()+".added-by", key.getPlayerUuid().toString());
+            getLogger().info("Unloading '" + key.getKeyUuid() + "'");
+        });
+        keyConfig.saveConfig();
+    }
+
     @Override
     public void onDisable(){
-
+        unloadKeys();
     }
 }

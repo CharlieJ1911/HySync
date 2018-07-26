@@ -22,9 +22,7 @@ public class AddKeyCommand extends BaseCommand {
 
     @Subcommand("add")
     public void onKeyAdd(Player player, String key){
-        if(StringUtil.hasPerm(player, "hysync.key.add")){
-            return;
-        }
+        if(!StringUtil.hasPerm(player, "hysync.key.add")) return;
 
         if(!KeyManager.isValidKey(key)){
             Lang.ADD_INVALID_KEY.send(player);

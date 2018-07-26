@@ -33,6 +33,7 @@ public class APIKeyPrompt extends ValidatingPrompt {
         Player player = (Player) context.getForWhom();
         Lang.ADD_VALID_KEY.sendRaw(player, key);
         KeyManager.getKeys().add(new Key(UUID.fromString(key), player.getUniqueId()));
+        context.setSessionData("APIKey", key);
         return END_OF_CONVERSATION;
     }
 }

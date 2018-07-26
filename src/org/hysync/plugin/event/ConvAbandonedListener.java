@@ -14,7 +14,10 @@ public class ConvAbandonedListener implements ConversationAbandonedListener {
     @Override
     public void conversationAbandoned(ConversationAbandonedEvent conversation) {
         Player player = (Player) conversation.getContext().getForWhom();
-        Lang.WELCOME_EXIT.send(player);
-        hySync.activeSetupUser = null;
+
+        if(conversation.getContext().getSessionData("APIKey") == null){
+            Lang.WELCOME_EXIT.send(player);
+            hySync.activeSetupUser = null;
+        }
     }
 }

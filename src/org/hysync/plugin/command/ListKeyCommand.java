@@ -22,9 +22,7 @@ public class ListKeyCommand extends BaseCommand {
 
     @Subcommand("list")
     public void onKeyList(Player player){
-        if(StringUtil.hasPerm(player, "hysync.key.list")){
-            return;
-        }
+        if(!StringUtil.hasPerm(player, "hysync.key.list")) return;
         Lang.HEADER.send(player);
         Lang.LISTING_KEYS.send(player);
         KeyManager.getKeys().forEach(key -> player.spigot().sendMessage(getKeyFormat(key).create()));
