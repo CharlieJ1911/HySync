@@ -19,8 +19,8 @@ public class HyProfile {
         return uuid;
     }
 
-    public String getRank() {
-        return rank;
+    public HyRank getRank() {
+        return ProfileManager.getRanks().get(rank.toUpperCase());
     }
 
     public JsonObject getPlayerData() {

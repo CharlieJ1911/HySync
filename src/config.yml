@@ -1,2 +1,43 @@
 ##------ HySync ------##
 ## Main Configuration ##
+
+rank:
+  VIP:
+    alias: "VIP"
+    prefix: "&a[VIP]"
+    display: "&aVIP"
+  VIP_PLUS:
+    alias: "VIP_PLUS"
+    prefix: "&a[VIP&6+&a]"
+    display: "&aVIP&6+"
+  MVP:
+    alias: "MVP"
+    prefix: "&b[MVP]"
+    display: "&bMVP"
+  MVP_PLUS:
+    alias: "MVP_PLUS"
+    prefix: "&b[MVP{plusColor}+&b]"
+    display: "&bMVP{plusColor}+"
+  MVP_PLUS_PLUS:
+    alias: "MVP_PLUS_PLUS"
+    prefix: "{rankColor}[MVP{plusColor}++{rankColor}]"
+    display: "{rankColor}MVP{plusColor}++"
+  HELPER:
+    alias: "HELPER"
+    prefix: "&9[HELPER]"
+    display: "&9HELPER"
+  MOD:
+    alias: "MOD"
+    prefix: "&2[MOD]"
+    display: "&2MOD"
+  ADMIN:
+    alias: "ADMIN"
+    prefix: "&c[ADMIN]"
+    display: "&cADMIN"
+  OWNER:
+    alias: "OWNER"
+    prefix: "&c[OWNER]"
+    display: "&cOWNER"
+
+on-sync:
+- "[MESSAGE] &eYour rank has been updated to {rankDisplay}&e."

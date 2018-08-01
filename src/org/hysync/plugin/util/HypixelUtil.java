@@ -47,7 +47,7 @@ public class HypixelUtil {
             }
 
             if(!result.isSuccess()) {
-                hySync.getLogger().warning("The API HyKey '"+apiKey.getKeyUuid()+"' is invalid.");
+                hySync.getLogger().warning("The API Key '"+apiKey.getKeyUuid()+"' is invalid.");
                 return;
             }
 

@@ -15,8 +15,8 @@ import org.hysync.plugin.storage.ProfileManager;
 
 public class ProfileSetEvent implements Listener {
     private HySync hySync;
-    ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-    Scoreboard scoreboard;
+    private ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
+    private Scoreboard scoreboard;
 
     public ProfileSetEvent(HySync hySync){
         this.hySync = hySync;
@@ -34,17 +34,17 @@ public class ProfileSetEvent implements Listener {
 
         Bukkit.getScheduler().runTaskLater(hySync, () -> {
             HyProfile profile = ProfileManager.getProfiles().get(player.getUniqueId());
-            hySync.getLogger().info(player.getName() + "'s rank is " + profile.getRank());
+            hySync.getLogger().info(player.getName() + "'s rank is " + profile.getRank().getAlias());
 
-            if(profile.getRank().contains("MVP_PLUS")) {
+            if(profile.getRank().getId().contains("MVP_PLUS")) {
                 hySync.getLogger().info(player.getName() + "'s rank colour is " + profile.getPlayerData().get("rankPlusColor").getAsString());
             }
 
-            player.setDisplayName(hySync.getHypixelUtil().getPrefix(profile.getRank(), profile.getPlayerData()) + " " + player.getName());
+            player.setDisplayName(hySync.getHypixelUtil().getPrefix(profile.getRank().getId(), profile.getPlayerData()) + " " + player.getName());
 
             if(scoreboard.getTeam(player.getName()) == null) {
                 scoreboard.registerNewTeam(player.getName());
-                scoreboard.getTeam(player.getName()).setPrefix(hySync.getHypixelUtil().getPrefix(profile.getRank(), profile.getPlayerData()) + " ");
+                scoreboard.getTeam(player.getName()).setPrefix(hySync.getHypixelUtil().getPrefix(profile.getRank().getId(), profile.getPlayerData()) + " ");
             }
             scoreboard.getTeam(player.getName()).addPlayer(player);
             player.setScoreboard(scoreboard);
