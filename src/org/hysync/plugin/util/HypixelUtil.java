@@ -115,19 +115,43 @@ public class HypixelUtil {
 
     public String getPrefix(String rank, JsonObject playerData){
         String rankPrefix = null;
-        ChatColor plusColor = ChatColor.valueOf(playerData.get("rankPlusColor").getAsString());
-        ChatColor rankColor = ChatColor.valueOf(playerData.get("monthlyRankColor").getAsString());
+        ChatColor plusColor = ChatColor.RED;
 
-        switch(rank){
+        switch(rank) {
+            case "ADMIN":
+                rankPrefix = ChatColor.RED + "[ADMIN]";
+                break;
+            case "MODERATOR":
+                rankPrefix = ChatColor.DARK_GREEN + "[MOD]";
+                break;
+            case "HELPER":
+                rankPrefix = ChatColor.BLUE + "[HELPER]";
+                break;
+            case "YOUTUBER":
+                rankPrefix = ChatColor.RED + "[" + ChatColor.RESET + "YOUTUBER" + ChatColor.RED + "]";
+                break;
             case "MVP_PLUS_PLUS":
+                plusColor = ChatColor.valueOf(playerData.get("rankPlusColor").getAsString());
+                ChatColor rankColor = ChatColor.valueOf(playerData.get("monthlyRankColor").getAsString()) == null ?
+                        ChatColor.valueOf(playerData.get("SUPERSTAR_COLOR").getAsString()) : ChatColor.valueOf(playerData.get("monthlyRankColor").getAsString());
                 rankPrefix = rankColor + "[MVP" + plusColor + "++" + rankColor + "]";
                 break;
             case "MVP_PLUS":
+                plusColor = ChatColor.valueOf(playerData.get("rankPlusColor").getAsString());
                 rankPrefix = ChatColor.AQUA + "[MVP" + plusColor + "+" + ChatColor.AQUA + "]";
                 break;
-
-            case "HELPER":
-                rankPrefix = ChatColor.BLUE + "[HELPER]";
+            case "MVP":
+                rankPrefix = ChatColor.AQUA + "[MVP]";
+                break;
+            case "VIP_PLUS":
+                rankPrefix = ChatColor.GREEN + "[VIP" + ChatColor.GOLD + "+" + ChatColor.GREEN + "]";
+                break;
+            case "VIP":
+                rankPrefix = ChatColor.GREEN + "[VIP]";
+                break;
+            case "DEFAULT":
+                rankPrefix = ChatColor.GRAY.toString();
+                break;
         }
 
         return rankPrefix;

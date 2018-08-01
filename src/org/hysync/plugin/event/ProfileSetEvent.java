@@ -20,14 +20,13 @@ public class ProfileSetEvent implements Listener {
 
     public ProfileSetEvent(HySync hySync){
         this.hySync = hySync;
-        this.scoreboard = scoreboardManager.getNewScoreboard();
+        this.scoreboard = scoreboardManager.getMainScoreboard();
 
         hySync.getServer().getPluginManager().registerEvents(this, hySync);
     }
 
     @EventHandler
     public void onConnect(PlayerJoinEvent e){
-
         if(KeyManager.getKeys().size() < 1) return;
 
         Player player = e.getPlayer();
@@ -36,19 +35,24 @@ public class ProfileSetEvent implements Listener {
         Bukkit.getScheduler().runTaskLater(hySync, () -> {
             HyProfile profile = ProfileManager.getProfiles().get(player.getUniqueId());
             hySync.getLogger().info(player.getName() + "'s rank is " + profile.getRank());
-            hySync.getLogger().info(player.getName() + "'s rank colour is " + profile.getPlayerData().get("rankPlusColor").getAsString());
+
+            if(profile.getRank().contains("MVP_PLUS")) {
+                hySync.getLogger().info(player.getName() + "'s rank colour is " + profile.getPlayerData().get("rankPlusColor").getAsString());
+            }
 
             player.setDisplayName(hySync.getHypixelUtil().getPrefix(profile.getRank(), profile.getPlayerData()) + " " + player.getName());
-        }, 40);
 
-        if(scoreboard.getTeam(e.getPlayer().getName()) == null) {
-            scoreboard.registerNewTeam(e.getPlayer().getName());
-            // TODO: Rank prefix + plus color if correct rank
-        }
+            if(scoreboard.getTeam(player.getName()) == null) {
+                scoreboard.registerNewTeam(player.getName());
+                scoreboard.getTeam(player.getName()).setPrefix(hySync.getHypixelUtil().getPrefix(profile.getRank(), profile.getPlayerData()) + " ");
+            }
+            scoreboard.getTeam(player.getName()).addPlayer(player);
+            player.setScoreboard(scoreboard);
+        }, 40);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        scoreboard.getTeam(event.getPlayer().getName()).unregister();
+        if(scoreboard.getTeam(event.getPlayer().getName()) != null) scoreboard.getTeam(event.getPlayer().getName()).unregister();
     }
 }

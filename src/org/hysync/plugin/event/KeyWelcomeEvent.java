@@ -51,7 +51,7 @@ public class KeyWelcomeEvent implements Listener {
         Player player = e.getPlayer();
         if (KeyManager.getKeys().size() > 0) return;
 
-        if (hySync.activeSetupUser == player.getUniqueId()) {
+        if (player.getUniqueId().compareTo(hySync.activeSetupUser) > 0) {
             hySync.getLogger().info(player.getName() + " left during setup.");
         }
     }

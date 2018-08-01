@@ -25,7 +25,7 @@ public class KeyManager {
     }
 
     public static boolean isAlreadyAdded(UUID key) {
-        return keyStorage.stream().filter(apiKey -> apiKey.getKeyUuid().equals(key)).count() > 0;
+        return keyStorage.stream().anyMatch(apiKey -> apiKey.getKeyUuid().equals(key));
     }
 
     public static boolean isValidKey(String key){
