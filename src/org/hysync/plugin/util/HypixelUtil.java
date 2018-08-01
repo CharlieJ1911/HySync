@@ -47,7 +47,7 @@ public class HypixelUtil {
             }
 
             if(!result.isSuccess()) {
-                hySync.getLogger().info("The API HyKey '"+apiKey.getKeyUuid()+"' is invalid.");
+                hySync.getLogger().warning("The API HyKey '"+apiKey.getKeyUuid()+"' is invalid.");
                 return;
             }
 
@@ -57,21 +57,19 @@ public class HypixelUtil {
             if(player.get("rank") != null && !player.get("rank").getAsString().equalsIgnoreCase("normal")){
                 // Staff
                 rank = player.get("rank").getAsString();
-
             } else if(player.get("monthlyPackageRank") != null){
                 // Monthly Paid Ranks
                 rank = player.get("monthlyPackageRank").getAsString();
                 if(rank.equalsIgnoreCase("SUPERSTAR")){
                     // MVP++
                     rank = "MVP_PLUS_PLUS";
-
                     plusColour.put(uuid, ChatColor.valueOf(result.getPlayer().get("rankPlusColor").getAsString()));
                 }
             } else if(player.get("newPackageRank") != null){
-                // Donator (Below MVP++)
+                // Post-EULA Donator Rank (Below MVP++)
                 rank = player.get("newPackageRank").getAsString();
             } else if(player.get("packageRank") != null){
-                // Unsure
+                // Pre-EULA Donator Rank
                 rank = player.get("packageRank").getAsString();
             } else {
                 // Normal Player
