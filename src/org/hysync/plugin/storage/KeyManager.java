@@ -19,6 +19,7 @@ public class KeyManager {
     public static Set<HyKey> getKeys(){
         return keyStorage;
     }
+    
     public static HyKey getRandomKey() {
         return keyStorage.stream().skip(ThreadLocalRandom.current().nextInt(keyStorage.size())).findFirst().orElse(null);
     }
