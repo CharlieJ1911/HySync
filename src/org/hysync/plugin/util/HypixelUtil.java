@@ -12,12 +12,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.hysync.plugin.HySync;
 import org.hysync.plugin.message.Lang;
-import org.hysync.plugin.storage.Key;
+import org.hysync.plugin.storage.HyKey;
+import org.hysync.plugin.storage.HyProfile;
 import org.hysync.plugin.storage.KeyManager;
+import org.hysync.plugin.storage.ProfileManager;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class HypixelUtil {
     private HySync hySync;
@@ -30,7 +33,7 @@ public class HypixelUtil {
     }
 
     public void setRank(UUID uuid){
-        Key apiKey = KeyManager.getRandomKey();
+        HyKey apiKey = KeyManager.getRandomKey();
 
         HypixelAPI.getInstance().setApiKey(apiKey.getKeyUuid());
         Request request = RequestBuilder.newBuilder(RequestType.PLAYER).addParam(RequestParam.PLAYER_BY_UUID, uuid).createRequest();
@@ -44,7 +47,7 @@ public class HypixelUtil {
             }
 
             if(!result.isSuccess()) {
-                hySync.getLogger().info("The API Key '"+apiKey.getKeyUuid()+"' is invalid.");
+                hySync.getLogger().info("The API HyKey '"+apiKey.getKeyUuid()+"' is invalid.");
                 return;
             }
 
@@ -81,6 +84,24 @@ public class HypixelUtil {
                 Lang.RANK_SET_TO.send(Bukkit.getPlayer(uuid), rank);
             }
             HypixelAPI.getInstance().finish();
+
+            if(ProfileManager.getProfiles().get(uuid) != null){
+                // Profile Exists
+                HyProfile profile = ProfileManager.getProfiles().get(uuid);
+
+                if(System.currentTimeMillis() - profile.getLastUpdated() >= TimeUnit.SECONDS.toMillis(30)){
+                    profile.setRank(rank);
+                    profile.setPlayerData(result.getPlayer());
+                    profile.setLastUpdated(System.currentTimeMillis());
+                    hySync.getLogger().info("Updating Profile for " + Bukkit.getPlayer(uuid).getName() + ".");
+                }
+            } else {
+                // Create Profile
+                HyProfile profile = new HyProfile(uuid, result.getPlayer());
+                profile.setRank(rank);
+                ProfileManager.getProfiles().put(uuid, profile);
+                hySync.getLogger().info("Creating Profile for " + Bukkit.getPlayer(uuid).getName() + ".");
+            }
         });
     }
 
@@ -90,5 +111,25 @@ public class HypixelUtil {
 
     public ChatColor getPlusColor(UUID uuid) {
         return plusColour.get(uuid);
+    }
+
+    public String getPrefix(String rank, JsonObject playerData){
+        String rankPrefix = null;
+        ChatColor plusColor = ChatColor.valueOf(playerData.get("rankPlusColor").getAsString());
+        ChatColor rankColor = ChatColor.valueOf(playerData.get("monthlyRankColor").getAsString());
+
+        switch(rank){
+            case "MVP_PLUS_PLUS":
+                rankPrefix = rankColor + "[MVP" + plusColor + "++" + rankColor + "]";
+                break;
+            case "MVP_PLUS":
+                rankPrefix = ChatColor.AQUA + "[MVP" + plusColor + "+" + ChatColor.AQUA + "]";
+                break;
+
+            case "HELPER":
+                rankPrefix = ChatColor.BLUE + "[HELPER]";
+        }
+
+        return rankPrefix;
     }
 }

@@ -10,19 +10,25 @@ import org.hysync.plugin.event.KeyWelcomeEvent;
 import org.hysync.plugin.event.ProfileSetEvent;
 import org.hysync.plugin.message.ConfigWrapper;
 import org.hysync.plugin.message.Lang;
-import org.hysync.plugin.storage.Key;
+import org.hysync.plugin.storage.HyKey;
 import org.hysync.plugin.storage.KeyManager;
+import org.hysync.plugin.storage.ProfileManager;
 import org.hysync.plugin.util.HypixelUtil;
 
 import java.util.UUID;
 
 public class HySync extends JavaPlugin {
     private KeyManager keyManager;
+    private ProfileManager profileManager;
     private BukkitCommandManager commandManager;
     private ConfigWrapper keyConfig;
 
     public KeyManager getKeyManager() {
         return keyManager;
+    }
+
+    public ProfileManager getProfileManager() {
+        return profileManager;
     }
 
     public BukkitCommandManager getCommandManager() {
@@ -37,21 +43,21 @@ public class HySync extends JavaPlugin {
     public UUID activeSetupUser;
 
     private HypixelUtil hypixelUtil;
-
     public HypixelUtil getHypixelUtil() {
         return hypixelUtil;
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable(){
         activeSetupUser = null;
 
         // Config Handling
         keyConfig = new ConfigWrapper(this, "keys.yml");
         Lang.init(new ConfigWrapper(this, "lang.yml"));
 
-        // Key Manager
+        // HyKey Manager
         keyManager = new KeyManager(this);
+        profileManager = new ProfileManager(this);
         loadKeys();
 
         // Events
@@ -67,32 +73,32 @@ public class HySync extends JavaPlugin {
         hypixelUtil = new HypixelUtil(this);
     }
 
-    private void loadKeys() {
+    private void loadKeys(){
         FileConfiguration keyConfigFile = keyConfig.getConfig();
-        if (keyConfigFile.getConfigurationSection("storage") == null) {
+        if(keyConfigFile.getConfigurationSection("storage") == null){
             getLogger().warning("No API Keys have been configured.");
             return;
         }
-        for (String keyId : keyConfigFile.getConfigurationSection("storage").getKeys(false)) {
-            KeyManager.getKeys().add(new Key(UUID.fromString(keyId),
-                    UUID.fromString(keyConfigFile.getString("storage." + keyId + ".added-by"))));
+        for(String keyId : keyConfigFile.getConfigurationSection("storage").getKeys(false)){
+            KeyManager.getKeys().add(new HyKey(UUID.fromString(keyId),
+                    UUID.fromString(keyConfigFile.getString("storage."+keyId+".added-by"))));
             getLogger().info("Loading '" + keyId + "'");
         }
         int keys = KeyManager.getKeys().size();
-        getLogger().info("Registered " + keys + " API " + (keys > 1 ? "keys" : "key"));
+        getLogger().info("Registered " + keys + " API " + (keys > 1 ? "Keys" : "HyKey") + ".");
     }
 
-    private void unloadKeys() {
+    private void unloadKeys(){
         FileConfiguration keyConfigFile = keyConfig.getConfig();
         KeyManager.getKeys().forEach(key -> {
-            keyConfigFile.set("storage." + key.getKeyUuid() + ".added-by", key.getPlayerUuid().toString());
-            getLogger().info("Unloading key: '" + key.getKeyUuid() + "'");
+            keyConfigFile.set("storage."+key.getKeyUuid()+".added-by", key.getPlayerUuid().toString());
+            getLogger().info("Unloading '" + key.getKeyUuid() + "'");
         });
         keyConfig.saveConfig();
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(){
         unloadKeys();
     }
 }

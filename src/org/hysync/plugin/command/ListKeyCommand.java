@@ -10,7 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.hysync.plugin.HySync;
 import org.hysync.plugin.message.Lang;
-import org.hysync.plugin.storage.Key;
+import org.hysync.plugin.storage.HyKey;
 import org.hysync.plugin.storage.KeyManager;
 import org.hysync.plugin.util.StringUtil;
 
@@ -29,9 +29,9 @@ public class ListKeyCommand extends BaseCommand {
         Lang.FOOTER.send(player);
     }
 
-    private ComponentBuilder getKeyFormat(Key key){
-        return new ComponentBuilder(Lang.KEY_ID.asString(key.getKeyUuid()))
+    private ComponentBuilder getKeyFormat(HyKey hyKey){
+        return new ComponentBuilder(Lang.KEY_ID.asString(hyKey.getKeyUuid()))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        TextComponent.fromLegacyText(Lang.KEY_ID_HOVER.asString(Bukkit.getOfflinePlayer(key.getPlayerUuid()).getName()))));
+                        TextComponent.fromLegacyText(Lang.KEY_ID_HOVER.asString(Bukkit.getOfflinePlayer(hyKey.getPlayerUuid()).getName()))));
     }
 }

@@ -9,17 +9,17 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class KeyManager {
     private HySync hysync;
-    private static Set<Key> keyStorage;
+    private static Set<HyKey> keyStorage;
 
     public KeyManager(HySync hysync){
         this.hysync = hysync;
         keyStorage = new HashSet<>();
     }
 
-    public static Set<Key> getKeys(){
+    public static Set<HyKey> getKeys(){
         return keyStorage;
     }
-    public static Key getRandomKey() {
+    public static HyKey getRandomKey() {
         return keyStorage.stream().skip(ThreadLocalRandom.current().nextInt(keyStorage.size())).findFirst().orElse(null);
     }
 

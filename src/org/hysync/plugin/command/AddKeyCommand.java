@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.entity.Player;
 import org.hysync.plugin.HySync;
 import org.hysync.plugin.message.Lang;
-import org.hysync.plugin.storage.Key;
+import org.hysync.plugin.storage.HyKey;
 import org.hysync.plugin.storage.KeyManager;
 import org.hysync.plugin.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +36,6 @@ public class AddKeyCommand extends BaseCommand {
         }
 
         Lang.ADD_VALID_KEY.send(player, key);
-        KeyManager.getKeys().add(new Key(UUID.fromString(key), player.getUniqueId()));
+        KeyManager.getKeys().add(new HyKey(UUID.fromString(key), player.getUniqueId()));
     }
 }

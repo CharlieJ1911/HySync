@@ -5,7 +5,7 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.hysync.plugin.message.Lang;
-import org.hysync.plugin.storage.Key;
+import org.hysync.plugin.storage.HyKey;
 import org.hysync.plugin.storage.KeyManager;
 
 import java.util.UUID;
@@ -32,7 +32,7 @@ public class APIKeyPrompt extends ValidatingPrompt {
     protected Prompt acceptValidatedInput(ConversationContext context, String key) {
         Player player = (Player) context.getForWhom();
         Lang.ADD_VALID_KEY.sendRaw(player, key);
-        KeyManager.getKeys().add(new Key(UUID.fromString(key), player.getUniqueId()));
+        KeyManager.getKeys().add(new HyKey(UUID.fromString(key), player.getUniqueId()));
         context.setSessionData("APIKey", key);
         return END_OF_CONVERSATION;
     }
