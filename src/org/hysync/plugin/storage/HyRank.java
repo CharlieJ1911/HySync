@@ -1,5 +1,7 @@
 package org.hysync.plugin.storage;
 
+import org.hysync.plugin.util.StringUtil;
+
 public class HyRank {
     private String id;
     private String alias;
@@ -19,7 +21,7 @@ public class HyRank {
     }
 
     public String getPrefix() {
-        return prefix;
+        return StringUtil.translate(prefix);
     }
 
     public String getDisplay() {

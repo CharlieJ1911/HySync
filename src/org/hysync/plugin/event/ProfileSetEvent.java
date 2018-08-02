@@ -1,6 +1,7 @@
 package org.hysync.plugin.event;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,15 +37,21 @@ public class ProfileSetEvent implements Listener {
             HyProfile profile = ProfileManager.getProfiles().get(player.getUniqueId());
             hySync.getLogger().info(player.getName() + "'s rank is " + profile.getRank().getAlias());
 
+
+
+            String prefix = profile.getRank().getPrefix();
             if(profile.getRank().getId().contains("MVP_PLUS")) {
-                hySync.getLogger().info(player.getName() + "'s rank colour is " + profile.getPlayerData().get("rankPlusColor").getAsString());
+                String rankPlusColor = profile.getPlayerData().get("rankPlusColor").getAsString();
+                String rankColor = profile.getPlayerData().get("monthlyRankColor").getAsString();
+                prefix = prefix.replace("{rankColor}", ChatColor.valueOf(rankColor).toString());
+                prefix = prefix.replace("{plusColor}", ChatColor.valueOf(rankPlusColor).toString());
             }
 
-            player.setDisplayName(hySync.getHypixelUtil().getPrefix(profile.getRank().getId(), profile.getPlayerData()) + " " + player.getName());
+            player.setDisplayName(prefix + " " + player.getName() + ChatColor.RESET);
 
             if(scoreboard.getTeam(player.getName()) == null) {
                 scoreboard.registerNewTeam(player.getName());
-                scoreboard.getTeam(player.getName()).setPrefix(hySync.getHypixelUtil().getPrefix(profile.getRank().getId(), profile.getPlayerData()) + " ");
+                scoreboard.getTeam(player.getName()).setPrefix(prefix);
             }
             scoreboard.getTeam(player.getName()).addPlayer(player);
             player.setScoreboard(scoreboard);
