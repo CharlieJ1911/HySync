@@ -9,6 +9,7 @@ import net.hypixel.api.request.RequestParam;
 import net.hypixel.api.request.RequestType;
 import net.hypixel.api.util.Callback;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.hysync.plugin.HySync;
 import org.hysync.plugin.message.Lang;
 import org.hysync.plugin.storage.HyKey;
@@ -106,5 +107,16 @@ public class HypixelUtil {
 
             HypixelAPI.getInstance().finish();
         });
+    }
+
+    public String getPrefix(HyProfile profile){
+        String prefix = profile.getRank().getPrefix();
+        if(profile.getRank().getId().contains("MVP_PLUS")) {
+            String rankPlusColor = profile.getPlayerData().get("rankPlusColor").getAsString();
+            String rankColor = profile.getPlayerData().get("monthlyRankColor").getAsString();
+            prefix = prefix.replace("{rankColor}", ChatColor.valueOf(rankColor).toString());
+            prefix = prefix.replace("{plusColor}", ChatColor.valueOf(rankPlusColor).toString());
+        }
+        return prefix;
     }
 }

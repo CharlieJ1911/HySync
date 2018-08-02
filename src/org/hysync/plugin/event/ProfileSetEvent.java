@@ -37,21 +37,11 @@ public class ProfileSetEvent implements Listener {
             HyProfile profile = ProfileManager.getProfiles().get(player.getUniqueId());
             hySync.getLogger().info(player.getName() + "'s rank is " + profile.getRank().getAlias());
 
-
-
-            String prefix = profile.getRank().getPrefix();
-            if(profile.getRank().getId().contains("MVP_PLUS")) {
-                String rankPlusColor = profile.getPlayerData().get("rankPlusColor").getAsString();
-                String rankColor = profile.getPlayerData().get("monthlyRankColor").getAsString();
-                prefix = prefix.replace("{rankColor}", ChatColor.valueOf(rankColor).toString());
-                prefix = prefix.replace("{plusColor}", ChatColor.valueOf(rankPlusColor).toString());
-            }
-
-            player.setDisplayName(prefix + " " + player.getName() + ChatColor.RESET);
+            player.setDisplayName(hySync.getHypixelUtil().getPrefix(profile) + " " + player.getName() + ChatColor.RESET);
 
             if(scoreboard.getTeam(player.getName()) == null) {
                 scoreboard.registerNewTeam(player.getName());
-                scoreboard.getTeam(player.getName()).setPrefix(prefix);
+                scoreboard.getTeam(player.getName()).setPrefix(hySync.getHypixelUtil().getPrefix(profile));
             }
             scoreboard.getTeam(player.getName()).addPlayer(player);
             player.setScoreboard(scoreboard);
