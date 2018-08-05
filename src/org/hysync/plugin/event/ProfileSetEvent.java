@@ -35,13 +35,13 @@ public class ProfileSetEvent implements Listener {
 
         Bukkit.getScheduler().runTaskLater(hySync, () -> {
             HyProfile profile = ProfileManager.getProfiles().get(player.getUniqueId());
-            hySync.getLogger().info(player.getName() + "'s rank is " + profile.getRank().getAlias());
 
-            player.setDisplayName(hySync.getHypixelUtil().getPrefix(profile) + " " + player.getName() + ChatColor.RESET);
+            String prefix = hySync.getHypixelUtil().getPrefix(profile);
+            player.setDisplayName(prefix + " " + player.getName() + ChatColor.RESET);
 
             if(scoreboard.getTeam(player.getName()) == null) {
                 scoreboard.registerNewTeam(player.getName());
-                scoreboard.getTeam(player.getName()).setPrefix(hySync.getHypixelUtil().getPrefix(profile));
+                scoreboard.getTeam(player.getName()).setPrefix(prefix);
             }
             scoreboard.getTeam(player.getName()).addPlayer(player);
             player.setScoreboard(scoreboard);

@@ -61,28 +61,28 @@ public class HypixelUtil {
                 return;
             }
 
-            JsonObject player = result.getPlayer();
-            String rank;
+            if(result.isThrottle()){
+                hySync.getLogger().warning("The API Key " + apiKey.getKeyUuid() + " is being throttled.");
+                return;
+            }
 
-            if(player.get("rank") != null && !player.get("rank").getAsString().equalsIgnoreCase("normal")){
-                // Staff
-                rank = player.get("rank").getAsString();
-            } else if(player.get("monthlyPackageRank") != null){
-                // Monthly Paid Ranks
-                rank = player.get("monthlyPackageRank").getAsString();
-                if(rank.equalsIgnoreCase("SUPERSTAR")){
-                    // MVP++
-                    rank = "MVP_PLUS_PLUS";
-                }
-            } else if(player.get("newPackageRank") != null){
-                // Post-EULA Donator Rank (Below MVP++)
-                rank = player.get("newPackageRank").getAsString();
-            } else if(player.get("packageRank") != null){
-                // Pre-EULA Donator Rank
-                rank = player.get("packageRank").getAsString();
-            } else {
-                // Normal Player
-                rank = "NONE";
+            JsonObject player = result.getPlayer();
+            String rank = null;
+
+            String staffRank = player.has("rank") ? player.get("rank").getAsString() : null;
+            String monthlyRank = player.has("monthlyPackageRank") ? player.get("monthlyPackageRank").getAsString() : null;
+            String postEulaRank = player.has("newPackageRank") ? player.get("newPackageRank").getAsString() : null;
+            String preEulaRank = player.has("packageRank") ? player.get("packageRank").getAsString() : null;
+
+            if(staffRank != null){
+                if(staffRank.equalsIgnoreCase("normal")) rank = "NONE";
+                else rank = staffRank;
+            } else if(monthlyRank != null && !monthlyRank.equalsIgnoreCase("NONE")){
+                if(monthlyRank.equalsIgnoreCase("SUPERSTAR")) rank = "MVP_PLUS_PLUS";
+            } else if(postEulaRank != null){
+                rank = postEulaRank;
+            } else if(preEulaRank != null){
+                rank = preEulaRank;
             }
 
             HyProfile profile;
