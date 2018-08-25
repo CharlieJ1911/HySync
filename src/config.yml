@@ -40,4 +40,4 @@ rank:
     display: "&cOWNER"
 
 on-sync:
-- "[MESSAGE] &eYour rank has been updated to {rankDisplay}&e."
+- "&eYour rank has been updated to {rankDisplay}&e."
