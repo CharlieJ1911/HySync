@@ -76,6 +76,7 @@ public class HySync extends JavaPlugin {
         new ListKeyCommand(this);
         new RankCheckCommand(this);
 
+        // Hypixel Utilities
         hypixelUtil = new HypixelUtil(this);
     }
 
