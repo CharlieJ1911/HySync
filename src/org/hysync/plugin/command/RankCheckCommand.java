@@ -25,10 +25,16 @@ public class RankCheckCommand extends BaseCommand {
 
         if(player.getName().equalsIgnoreCase(target)){
             HyProfile profile = ProfileManager.getProfiles().get(player.getUniqueId());
-            Lang.RANK_CHECK_SELF.send(player, profile.getRank().getAlias());
+            if(profile == null) {
+                Lang.REQUIRE_RELOG.send(player);
+                return;
+            }
+
+            Lang.RANK_CHECK_SELF.send(player, Lang.HEADER.asString(), profile.getRank().getAlias(), Lang.FOOTER.asString());
         } else {
             HyProfile profile = ProfileManager.getProfiles().get(Bukkit.getOfflinePlayer(target).getUniqueId());
-            Lang.RANK_CHECK_OTHER.send(player, profile.getRank().getAlias());
+            Lang.RANK_CHECK_OTHER.send(player, Lang.HEADER.asString(), profile.getPlayerData().get("username"),
+                    profile.getRank().getAlias(), Lang.FOOTER.asString());
         }
     }
 }

@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.hysync.plugin.command.AddKeyCommand;
 import org.hysync.plugin.command.ListKeyCommand;
+import org.hysync.plugin.command.MainCommand;
 import org.hysync.plugin.command.RankCheckCommand;
 import org.hysync.plugin.event.ChatFormatEvent;
 import org.hysync.plugin.event.KeyWelcomeEvent;
@@ -72,6 +73,7 @@ public class HySync extends JavaPlugin {
 
         // Commands
         commandManager = new BukkitCommandManager(this);
+        new MainCommand(this);
         new AddKeyCommand(this);
         new ListKeyCommand(this);
         new RankCheckCommand(this);

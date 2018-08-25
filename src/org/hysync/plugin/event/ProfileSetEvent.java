@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 import org.hysync.plugin.HySync;
 import org.hysync.plugin.storage.HyProfile;
 import org.hysync.plugin.storage.KeyManager;
@@ -16,13 +15,11 @@ import org.hysync.plugin.storage.ProfileManager;
 
 public class ProfileSetEvent implements Listener {
     private HySync hySync;
-    private ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
     private Scoreboard scoreboard;
 
     public ProfileSetEvent(HySync hySync){
         this.hySync = hySync;
-        this.scoreboard = scoreboardManager.getMainScoreboard();
-
+        this.scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         hySync.getServer().getPluginManager().registerEvents(this, hySync);
     }
 
@@ -36,8 +33,8 @@ public class ProfileSetEvent implements Listener {
         Bukkit.getScheduler().runTaskLater(hySync, () -> {
             HyProfile profile = ProfileManager.getProfiles().get(player.getUniqueId());
 
-            String prefix = hySync.getHypixelUtil().getPrefix(profile);
-            player.setDisplayName(prefix + " " + player.getName() + ChatColor.RESET);
+            String prefix = hySync.getHypixelUtil().getPrefix(profile) + " ";
+            player.setDisplayName(prefix + player.getName() + ChatColor.RESET);
 
             if(scoreboard.getTeam(player.getName()) == null) {
                 scoreboard.registerNewTeam(player.getName());

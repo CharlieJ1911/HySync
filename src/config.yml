@@ -38,6 +38,3 @@ rank:
     alias: "OWNER"
     prefix: "&c[OWNER]"
     display: "&cOWNER"
-
-on-sync:
-- "&eYour rank has been updated to {rankDisplay}&e."

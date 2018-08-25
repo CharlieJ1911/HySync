@@ -102,7 +102,7 @@ public class HypixelUtil {
             hySync.getLogger().info("Updating Profile for " + Bukkit.getPlayer(uuid).getName() + ".");
 
             if(Bukkit.getPlayer(uuid) != null){
-                Lang.RANK_SET_TO.send(Bukkit.getPlayer(uuid), profile.getRank().getAlias());
+                Lang.RANK_SET_TO.send(Bukkit.getPlayer(uuid), Lang.HEADER.asString(), profile.getRank().getAlias(), Lang.FOOTER.asString());
             }
 
             HypixelAPI.getInstance().finish();

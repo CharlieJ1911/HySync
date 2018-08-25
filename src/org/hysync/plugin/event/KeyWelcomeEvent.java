@@ -12,12 +12,9 @@ import org.hysync.plugin.conversation.APIKeyPrompt;
 import org.hysync.plugin.message.Lang;
 import org.hysync.plugin.storage.KeyManager;
 
-import java.util.UUID;
-
 public class KeyWelcomeEvent implements Listener {
     private HySync hySync;
     private ConversationFactory factory;
-    private UUID currentlyRegistering;
 
     public KeyWelcomeEvent(HySync hySync) {
         this.hySync = hySync;
@@ -34,8 +31,7 @@ public class KeyWelcomeEvent implements Listener {
 
         if (KeyManager.getKeys().size() > 0) return;
         if (!player.isOp()) return;
-
-        if (currentlyRegistering != null) return;
+        if (hySync.activeSetupUser != null) return;
 
         new BukkitRunnable() {
             @Override
@@ -49,9 +45,11 @@ public class KeyWelcomeEvent implements Listener {
     @EventHandler
     public void onOperatorLeave(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        if (KeyManager.getKeys().size() > 0) return;
 
-        if (player.getUniqueId().compareTo(hySync.activeSetupUser) > 0) {
+        if (KeyManager.getKeys().size() > 0) return;
+        if(hySync.activeSetupUser == null) return;
+
+        if(player.getUniqueId() == hySync.activeSetupUser){
             hySync.getLogger().info(player.getName() + " left during setup.");
         }
     }

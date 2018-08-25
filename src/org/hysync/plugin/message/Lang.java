@@ -24,10 +24,12 @@ public enum Lang {
     EXIT_CODE("cancel"),
     KEY_ID("&a{0}"),
     KEY_ID_HOVER("&eCreated by &6{0}"),
-    RANK_SET_TO("&eYour rank has been set to &6{0}&e."),
+    RANK_SET_TO("{0}", "&eYour rank has been set to &6{1}&e.", "{2}"),
     RANK_DISABLED("&cYour rank ({0}) couldn't be synchronised as it has been disabled by the administrator."),
-    RANK_CHECK_SELF("&eYour rank is &6{0}&e."),
-    RANK_CHECK_OTHER("&e{0}'s rank is &6{1}&e.")
+    REQUIRE_RELOG("&cYou must relog in order to do that."),
+    RANK_CHECK_SELF("{0}", "&eYour rank is &6{1}&e.", "{2}"),
+    RANK_CHECK_OTHER("{0}", "&e{1}'s rank is &6{2}&e.", "{3}"),
+    MAIN_COMMAND("{0}", "&eRunning HySync &6v{1}&e - &7Website: HySync.org", "{2}")
 
     ;
 
@@ -37,7 +39,7 @@ public enum Lang {
     private static FileConfiguration c;
 
     Lang(final String... def) {
-        this.message = Arrays.stream(def).collect(Collectors.joining("\n"));
+        this.message = String.join("\n", def);
     }
 
     private String getMessage() {
